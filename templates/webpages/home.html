@@ -1,0 +1,203 @@
+{% extends 'base.html'%}
+{%load mathfilters%}
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{% static './css/base.css '%}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calometer</title>
+</head>
+<body>
+  {%block content%}
+   
+  <div class="hero-image">
+    <div class="hero-text">
+      <h1 class="calulator" style="font-family:'Abril Fatface', cursive; font-size: 4rem;" , >Food Calorie Calulator</h1>
+      <h1>Search for calories in your food ...</h1>
+          
+      <form action="" method="POST">
+        {%csrf_token%}
+        <input type="text" class="inputstyle" name="query" id="searchbar" placeholder="Enter any food Item"><br>
+        <button class="btn btn-lg btn-outline-light searchbtn">Find Calories</button>
+        <!-- <div class="box col-md-8 alert alert-warning">
+          Opps!! Something Went wrong
+  
+        </div> -->
+      </form>
+    {%if api%}
+     {%if api == "Oops! There was an error "%}
+      <div class=" alert alert-warning ">
+        <p> Opps!! Something Went wrong</p>
+
+      </div>
+    {%else%}
+    {% if api.0.sodium_mg > 1000%}
+    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+      <p>The Food contain a high amount of sodium. High Sodium causes severe 
+        dehydration and water retension.
+      </p>
+    </div>
+    {%endif%}
+
+    {% if api.0.sugar_g > 100%}
+    <div class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+      <p>The Food contain a high amount of Sugar.Sugar causes insulin spikes 
+        and is a number 1 cause of obisity.
+      </p>
+    </div>
+    {%endif%}
+    
+     
+  </div>
+  </div>
+
+
+
+  <div class="row serve">
+    <h1>{{api.0.name| capfirst}} has total of <strong> {{api.0.calories}} Calories </strong>
+    {%if api.0.calories > 200%}
+      <img src="{% static 'assets/shocked.png'%}" alt="shocked.png" class="img-responsive">
+    {%endif%}
+    </h1>
+    <h2>Serving Size per 100g</h1>
+    
+  </div>
+<section id="wrapper">
+    
+  
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card_area">
+          <div class="single_card">
+            <h2>Carbohydrates</h2>
+            <h3>{{api.0.carbohydrates_total_g}}&nbsp g</h3>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card_area">
+          <div class="single_card">
+            <h2>Cholestrol</h2>
+            
+            <h3>{{api.0.cholesterol_mg | div:1000}}&nbsp g</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card_area">
+          <div class="single_card">
+            <h2>Saturated fat</h2>
+           
+            <h3>{{api.0.fat_saturated_g}}&nbsp g</h3>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card_area">
+          <div class="single_card">
+            <h2>Total fat</h2>
+           
+            <h3>{{api.0.fat_total_g}}&nbsp g</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card_area">
+          <div class="single_card">
+            <h2>Fibre Content</h2>
+            
+            <h3>{{api.0.fiber_g}}&nbsp g</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card_area">
+          <div class="single_card">
+            <h2>Potassium</h2>
+            
+            <h3>{{api.0.potassium_mg |div:1000}}&nbsp g</h3>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card_area">
+          <div class="single_card">
+            <h2>Protien</h2>
+           
+            <h3>{{api.0.protein_g}}&nbsp g</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card_area">
+          <div class="single_card">
+            <h2>Sodium</h2>
+            
+            <h3>{{api.0.sodium_mg |div:1000}}&nbsp g</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card_area">
+          <div class="single_card">
+            <h2>Sugar</h2>
+            
+            <h3>{{api.0.sugar_g}}&nbsp g</h3>
+          </div>
+        </div>
+      </div>
+    </div> 
+    <div class="calbtn">
+      <!-- <a href="/exercise" style="text-decoration: none;">
+      <input type="button" value="Burn Calories" style="display: block; margin: 0 auto;" class="btn btn-lg btn-outline-light">
+      </a> -->
+      <form action="/exercise.html" method="POST">
+        {%csrf_token%}
+          <input type="hidden" value={{query}} name="query"/>
+          <input type="submit" value="Burn Calories" style="display: block; margin: 0 auto;" class="btn btn-lg btn-outline-light">
+         
+      </form>
+    </div>
+   
+    
+  </div>
+
+  {%endif%}
+  {%endif%}
+  
+</section>
+
+      
+{%endblock%}
+
+</body>
+</html>

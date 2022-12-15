@@ -1,0 +1,150 @@
+{% extends 'base.html'%}
+{%load static%}
+{% load mathfilters%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static './css/base.css '%}">
+    <title>Document</title>
+</head>
+<body>
+    
+    {% block content%}
+    
+    <div class=" burncal" >
+    <h1 style="margin-bottom:0px ;">Burn your {{api.0.calories}} Calories  By Doing</h1>
+    </div>
+    
+    
+    <section id="wrapper">
+        <div class="container" style="
+        padding-left: 0px;
+        padding-right: 0px;">
+          <div class="row " style="padding-bottom:30px ;">
+            
+              <div class="card_area " style="width:40%;margin: 0 auto ;">
+                <div class="single_card">
+                    <img src="{% static './assets/jogging.png '%}" class="card-img-top"
+                     id="exercise_img" alt="..."  style="padding-top:10px ;">
+                    <div class="card-body">
+                        <h1>Jogging</h1>
+                        <p class="card-text">You will have to do jogging for {{api.0.calories |div:345|mul:60|floatformat:0}} minutes</p>
+                    </div>
+                  
+                </div>
+              </div>
+            
+
+            
+            
+                <div class="card_area" style="width:40%;margin: 0 auto;">
+                    <div class="single_card">
+                        <img src="{% static './assets/walk.png '%}" class="card-img-top"
+                         id="exercise_img" alt="..."  style="padding-top:10px ;">
+                        <div class="card-body">
+                            <h1>Brisk Walk</h1>
+                            <p class="card-text">You will have to do Walking for {{api.0.calories |div:294|mul:60|floatformat:0}} minutes</p>        
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+                
+  
+
+   
+        <div class="container" style="
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 40px;
+        padding-bottom: 40px;">
+          <div class="row">
+            
+            <div class="card_area" style="width:40%;margin: 0 auto;">
+                <div class="single_card" style="padding-bottom: 10px;">
+                    <img src="{% static './assets/yoga.png '%}" class="card-img-top" 
+                    id="exercise_img" alt="..."  style="padding-top:10px ;">
+                    <div class="card-body">
+                        <h1>Power Yoga</h1>
+                        <p class="card-text" style="
+                        padding-bottom: 20px;">You will have to do yoga for {{api.0.calories |div:223|mul:60|floatformat:0}} minutes</p>                        </div>
+                </div>
+            </div>
+            
+
+            
+            
+                <div class="card_area" style="width:40%;margin: 0 auto;">
+                    <div class="single_card">
+                        <img src="{% static './assets/gym.png '%}" class="card-img-top" 
+                        id="exercise_img" alt="..."  style="padding-top:10px ;">
+                        <div class="card-body">
+                            <h1>Gym Workout</h1>
+                            <p class="card-text">You will have to do Gym workout for {{api.0.calories |div:483|mul:60|floatformat:0}} minutes</p>                        </div>
+                    </div>
+                </div>
+            
+        </div>
+        <div style="padding-top: 100px; padding-bottom:100px">
+            <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+        
+    </section>
+   
+        <script>
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Carbohydrates', 'Cholestrol', 'Saturated fat', 'Total fat', 'Fibre Content', 'Potassium',
+                'Protien' ,'Sodium','Sugar'],
+                    datasets: [{
+                        label: 'Nutritional values of {{api.0.name | capfirst}}',
+                        data: ['{{api.0.carbohydrates_total_g}}' ,'{{api.0.cholestrol_mg | div:1000}}','{{api.0.fat_saturated_g}}',
+                        '{{api.0.fat_total_g}}','{{api.0.fiber_g}}','{{api.0.potassium_mg | div:1000}}',
+                        '{{api.0.protein_g}}','{{api.0.sodium_mg | div:1000}}','{{api.0.sugar_g}}'],
+                        backgroundColor: [
+                            'rgba(255, 99, 132,0.4)',
+                            'rgba(54, 162, 235, 0.4)',
+                            'rgba(255, 206, 86, 0.4)',
+                            'rgba(75, 192, 192, 0.4)',
+                            'rgba(153, 102, 255, 0.4)',
+                            'rgba(255, 159, 64, 0.4)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive:true,
+                    maintainAspectRatio: false,
+
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            </script>
+        
+
+    
+    
+    {%endblock%}
+
+    
+       
+       
+</body>
+</html>
